@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>定時炸彈遊戲 (驚喜版)</title>
+    <title>倒數計時遊戲 (驚喜版)</title>
     <style>
         /* --- 頁面整體樣式 --- */
         body {
@@ -108,7 +108,7 @@
 <body>
     <div class="main-layout">
         <div class="game-column">
-            <h1>💣 定時炸彈 💣</h1>
+            <h1>💣 倒數計時 💣</h1>
             
             <div id="timer-display">01:00</div>
             <div id="status-message"></div>
@@ -124,7 +124,7 @@
             </div>
             
             <div id="result-area" class="area-section hidden">
-                <h3>是誰拿到了炸彈？</h3>
+                <h3>是誰拿到了球呢？</h3>
                 <select id="player-select"></select>
                 <button id="submit-name-btn">記錄姓名</button>
             </div>
@@ -224,7 +224,7 @@
             clearInterval(timer);
             tickSound.pause(); tickSound.currentTime = 0;
             explosionSound.play();
-            statusMessage.textContent = '💥 轟隆！爆炸了！ 💥';
+            statusMessage.textContent = '💥 轟隆！中獎了！ 💥';
             resultArea.classList.remove('hidden');
             stopBtnArea.classList.add('hidden');
             
