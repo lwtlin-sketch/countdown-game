@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>倒數計時遊戲 (驚喜版)</title>
+    <title>定時炸彈遊戲 (音樂版)</title>
     <style>
         /* --- 頁面整體樣式 --- */
         body {
@@ -124,7 +124,7 @@
             </div>
             
             <div id="result-area" class="area-section hidden">
-                <h3>是誰拿到了球呢？</h3>
+                <h3>是誰拿到了炸彈？</h3>
                 <select id="player-select"></select>
                 <button id="submit-name-btn">記錄姓名</button>
             </div>
@@ -190,9 +190,15 @@
         let timeLeft = 0;
         let playerNames = [];
         let historyRecords = {}; 
+        
+        // --- 音效與音樂設定 ---
         const tickSound = new Audio('https://www.soundjay.com/clock/sounds/clock-ticking-1.mp3');
         tickSound.loop = true;
         const explosionSound = new Audio('https://www.soundjay.com/mechanical/sounds/explosion-01.mp3');
+        
+        // [新功能] 宣告背景音樂物件
+        const backgroundMusic = new Audio('順從在我心中.mp3');
+        backgroundMusic.loop = true; // 設定為循環播放
 
         // --- 功能函式 ---
         function formatTime(seconds) {
@@ -207,12 +213,11 @@
             resultArea.classList.add('hidden');
             punishmentArea.classList.add('hidden');
             statusMessage.textContent = '';
-            
-            // [新功能] 隱藏計時器，增加刺激感
             timerDisplay.style.visibility = 'hidden';
             
             timeLeft = parseInt(timeInput.value, 10) || 60;
             tickSound.play();
+            backgroundMusic.play(); // [新功能] 播放背景音樂
 
             timer = setInterval(() => {
                 timeLeft--;
@@ -223,15 +228,14 @@
         function endGame() {
             clearInterval(timer);
             tickSound.pause(); tickSound.currentTime = 0;
+            backgroundMusic.pause(); backgroundMusic.currentTime = 0; // [新功能] 停止並重置背景音樂
             explosionSound.play();
-            statusMessage.textContent = '💥 轟隆！中獎了！ 💥';
+            statusMessage.textContent = '💥 轟隆！停止了！ 💥';
             resultArea.classList.remove('hidden');
             stopBtnArea.classList.add('hidden');
-            
-            // [新功能] 時間到，重新顯示計時器 (會是 00:00)
             timerDisplay.textContent = formatTime(0);
             timerDisplay.style.visibility = 'visible';
-            timerDisplay.style.color = '#d9534f'; // 顯示為紅色
+            timerDisplay.style.color = '#d9534f';
         }
 
         function showPunishment(playerName) {
@@ -247,13 +251,13 @@
         function resetGame(message = '') {
             clearInterval(timer);
             tickSound.pause(); tickSound.currentTime = 0;
+            backgroundMusic.pause(); backgroundMusic.currentTime = 0; // [新功能] 確保重置時也停止音樂
             statusMessage.textContent = message;
             timeLeft = parseInt(timeInput.value, 10) || 60;
             
-            // [新功能] 重置時，確保計時器是可見的
             timerDisplay.textContent = formatTime(timeLeft);
             timerDisplay.style.visibility = 'visible';
-            timerDisplay.style.color = '#4CAF50'; // 恢復正常顏色
+            timerDisplay.style.color = '#4CAF50';
 
             playAgainArea.classList.add('hidden');
             punishmentArea.classList.add('hidden');
