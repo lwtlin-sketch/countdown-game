@@ -1,1 +1,1 @@
-# time-bomb-game
+# countdown-game
